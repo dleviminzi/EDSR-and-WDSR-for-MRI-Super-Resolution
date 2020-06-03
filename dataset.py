@@ -3,7 +3,7 @@ import tensorflow as tf
 from tensorflow.python.data.experimental import AUTOTUNE
 
 
-def dataset(batch_size=16, repeat_count=None, random_transform=True, subset='train'):
+def dataset(batch_size=16, repeat_count=1, random_transform=True, subset='train'):
 
     lr_dir = './dataset/lr/'
     hr_dir = './dataset/hr/'
