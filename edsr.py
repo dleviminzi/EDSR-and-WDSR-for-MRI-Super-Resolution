@@ -26,16 +26,6 @@ def edsr(scale, num_filters=64, num_res_blocks=8, res_block_scaling=None):
     x = Lambda(denormalize)(x)
     return Model(x_in, x, name="edsr")
 
-'''
-def res_block(x_in, filters, scaling):
-    x = Conv2D(filters, 3, padding='same', activation='relu')(x_in)
-    x = Conv2D(filters, 3, padding='same')(x)
-    if scaling:
-        x = Lambda(lambda t: t * scaling)(x)
-    x = Add()([x_in, x])
-    return x
-'''
-
 # currently there is only a scale 4 model
 def upsample(x, scale, num_filters):
     def upsample_1(x, factor, **kwargs):
