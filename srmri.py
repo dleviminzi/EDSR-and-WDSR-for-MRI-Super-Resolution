@@ -1,7 +1,7 @@
 import os
 import matplotlib.pyplot as plt
 from dataset import dataset, random_crop, random_flip, random_rotate
-from model.edsr import edsr
+from edsr import edsr
 from train import EdsrTrainer
 
 depth = 16
