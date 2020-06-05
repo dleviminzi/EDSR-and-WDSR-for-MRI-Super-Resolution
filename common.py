@@ -32,21 +32,21 @@ def evaluate(model, dataset):
 # ---------------------------------------
 
 
-def normalize(x, rgb_mean=MRI_INTENSITY_MEAN):
-    return (x - rgb_mean) / 127.5
+def normalize(x, int_mean=MRI_INTENSITY_MEAN):
+    return (x - int_mean) / 127.5
 
 
-def denormalize(x, rgb_mean=MRI_INTENSITY_MEAN):
-    return x * 127.5 + rgb_mean
+def denormalize(x, int_mean=MRI_INTENSITY_MEAN):
+    return x * 127.5 + int_mean
 
 
 def normalize_01(x):
-    """Normalizes RGB images to [0, 1]."""
+    """Normalizes images to [0, 1]."""
     return x / 255.0
 
 
 def normalize_m11(x):
-    """Normalizes RGB images to [-1, 1]."""
+    """Normalizes images to [-1, 1]."""
     return x / 127.5 - 1
 
 
@@ -56,7 +56,7 @@ def denormalize_m11(x):
 
 
 # ---------------------------------------
-#  Metrics
+#  PSNR
 # ---------------------------------------
 
 
