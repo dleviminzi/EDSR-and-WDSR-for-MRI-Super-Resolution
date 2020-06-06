@@ -1,5 +1,4 @@
 import tensorflow as tf
-import csv
 
 from common import evaluate
 
@@ -67,7 +66,7 @@ class Trainer:
                 ckpt_mgr.save()
 
         # saving progress data to make graphs
-        csv.open('./visLoss.csv', 'w')
+        csv = open('./visLoss.csv', 'w')
         csv.write('step, loss, psnr\n')
         for vals in vis_list:
             csv.write('{},{},{}\n'.format(vals[0],vals[1],vals[2]))
