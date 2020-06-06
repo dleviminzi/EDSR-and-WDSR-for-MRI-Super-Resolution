@@ -1,10 +1,8 @@
-import time
 import tensorflow as tf
+import csv
 
 from common import evaluate
 
-from tensorflow.keras.applications.vgg19 import preprocess_input
-from tensorflow.keras.losses import BinaryCrossentropy
 from tensorflow.keras.losses import MeanAbsoluteError
 from tensorflow.keras.losses import MeanSquaredError
 from tensorflow.keras.metrics import Mean
@@ -41,7 +39,7 @@ class Trainer:
         ckpt_mgr = self.checkpoint_manager
         ckpt = self.checkpoint
 
-        self.now = time.perf_counter()
+        vis_list = []
 
         for lr, hr in train_dataset.take(steps - ckpt.step.numpy()):
             ckpt.step.assign_add(1)
@@ -57,18 +55,25 @@ class Trainer:
                 # Compute PSNR on validation dataset
                 psnr_value = self.evaluate(valid_dataset)
 
-                duration = time.perf_counter() - self.now
-                print(f'{step}/{steps}: loss = {loss_value.numpy():.3f}, PSNR = {psnr_value.numpy():3f} ({duration:.2f}s)')
+                print(f'{step}/{steps}: loss = {loss_value.numpy():.3f}, PSNR = {psnr_value.numpy():3f}')
+
+                vis_list.append((step, loss_value, psnr_value))
 
                 if save_best_only and psnr_value <= ckpt.psnr:
-                    self.now = time.perf_counter()
                     # skip saving checkpoint, no PSNR improvement
                     continue
 
                 ckpt.psnr = psnr_value
                 ckpt_mgr.save()
 
-                self.now = time.perf_counter()
+        # saving progress data to make graphs
+        csv.open('./visLoss.csv', 'w')
+        csv.write('step, loss, psnr\n')
+        for vals in vis_list:
+            csv.write('{},{},{}\n'.format(vals[0],vals[1],vals[2]))
+        csv.close()
+
+
 
     @tf.function
     def train_step(self, lr, hr):
@@ -96,8 +101,15 @@ class Trainer:
 class EdsrTrainer(Trainer):
     def __init__(self,
                  model,
+                 loss,
                  checkpoint_dir,
                  learning_rate=PiecewiseConstantDecay(boundaries=[200000], values=[1e-4, 5e-5])):
+        if loss == 'MAE':
+            loss = MeanAbsoluteError()
+        elif loss == 'MSE':
+            loss = MeanSquaredError()
+        else:
+            raise ValueError("loss specified incorrectly")
         super().__init__(model, loss=MeanAbsoluteError(), learning_rate=learning_rate, checkpoint_dir=checkpoint_dir)
 
     def train(self, train_dataset, valid_dataset, steps=300000, evaluate_every=1000, save_best_only=True):
@@ -107,8 +119,15 @@ class EdsrTrainer(Trainer):
 class WdsrTrainer(Trainer):
     def __init__(self,
                  model,
+                 loss,
                  checkpoint_dir,
                  learning_rate=PiecewiseConstantDecay(boundaries=[200000], values=[1e-3, 5e-4])):
+        if loss == 'MAE':
+            loss = MeanAbsoluteError()
+        elif loss == 'MSE':
+            loss = MeanSquaredError()
+        else:
+            raise ValueError("loss specified incorrectly")
         super().__init__(model, loss=MeanAbsoluteError(), learning_rate=learning_rate, checkpoint_dir=checkpoint_dir)
 
     def train(self, train_dataset, valid_dataset, steps=300000, evaluate_every=1000, save_best_only=True):

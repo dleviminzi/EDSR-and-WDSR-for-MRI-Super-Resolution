@@ -28,12 +28,12 @@ def dataset(batch_size=16, repeat_count=None, random_transform=True, subset='tra
 
     ds = tf.data.Dataset.zip((lr_ds, hr_ds))
 
-    '''
-    if random_transform:
-        ds = ds.map(lambda lr, hr: random_crop(lr, hr, scale=4), num_parallel_calls=AUTOTUNE)
-        ds = ds.map(random_rotate, num_parallel_calls=AUTOTUNE)
-        ds = ds.map(random_flip, num_parallel_calls=AUTOTUNE)
-    '''
+
+#    if random_transform:
+#        ds = ds.map(lambda lr, hr: random_crop(lr, hr, scale=4), num_parallel_calls=AUTOTUNE)
+#        ds = ds.map(random_rotate, num_parallel_calls=AUTOTUNE)
+#        ds = ds.map(random_flip, num_parallel_calls=AUTOTUNE)
+
     ds = ds.batch(batch_size)
     ds = ds.repeat(repeat_count)
     ds = ds.prefetch(buffer_size=AUTOTUNE)
