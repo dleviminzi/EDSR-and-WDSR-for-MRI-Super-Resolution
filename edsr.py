@@ -1,4 +1,4 @@
-from tensorflow.python.keras.layers import Add, Conv2D, Input, Lambda
+from tensorflow.python.keras.layers import Add, Conv2D, Input, Lambda, BatchNormalization
 from tensorflow.python.keras.models import Model
 
 from common import normalize, denormalize, pixel_shuffle
@@ -14,7 +14,7 @@ def edsr(scale, num_filters=64, num_res_blocks=8, res_block_scaling=None):
         b = Conv2D(num_filters, 3, padding='same', activation='relu')(b)
         b = Conv2D(num_filters, 3, padding='same')(b)
         if res_block_scaling:
-            b = Lambda(lambda t: t * scaling)(b)
+            b = Lambda(lambda t: t * res_block_scaling)(b)
         b = Add()([b_in, b])
 
     b = Conv2D(num_filters, 3, padding='same')(b)
