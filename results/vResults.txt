@@ -1,0 +1,53 @@
+------------------------------------EDSR----------------------------------------
+
+MAIN TRIAL (RERUN FOR COLLECTION)-----------------------------------------------
+Training with depth of 32 for the residual blocks and 256 filters - MAE:
+
+Validation PSNR = 33.202381
+
+
+BATCH NORM EXPERIMENT###########################################################
+45k steps for bn w/ batch size 10 and 900 images => 500 epochs
+__k steps w/o bn w/ batch size 16 and 900 images => 500 epochs
+
+
+Training with depth of 32 for the residual blocks and 256 filters - MAE:
+(batch norm applied, batch size 10)
+
+Validation PSNR = 28.146904
+
+
+
+
+
+Training with depth of 16 and 64 filters - MAE:
+
+Validation PSNR = 24.627205
+
+
+
+------------------------------------WDSR----------------------------------------
+
+MAIN TRIAL----------------------------------------------------------------------
+Training with depth of 16 for res blocks and 128 filters - MAE:
+5700k steps w/ wn and batch size of 16 and 900 images => ~1000 epochs
+
+Validation PSNR = 33.172527
+
+BATCH NORM TRAIN VAL = 27.887377
+
+NO NORM TRAIN VAL = 30.212297
+
+
+MSE VS MAE#####################################################################
+
+Training with depth of 32 for the residual blocks and 32 filters - MAE:
+
+Validation PSNR = 26.982943
+
+Training with depth of 32 for the residual blocks and 32 filter - MSE:
+
+Validation PSNR = 27.017452
+
+
+
