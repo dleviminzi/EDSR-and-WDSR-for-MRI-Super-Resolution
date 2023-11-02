@@ -27,4 +27,5 @@ https://arxiv.org/abs/1808.08718
 Weights from previous training instances can be found in the weights folder.
 
 A copy of our paper can be found below:
+
 [A Comparison of Super-Resolution Techniques Applied to MRIs.pdf](https://github.com/dleviminzi/EDSR-and-WDSR-for-MRI-Super-Resolution/files/13244305/A.Comparison.of.Super-Resolution.Techniques.Applied.to.MRIs.pdf)
